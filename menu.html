@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Меню</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Левый блок (20%) -->
+    <nav class="sidebar">
+      <h2>Бөлімдер</h2>
+      <button onclick="loadQuestions('part1')">1-бөлім. Ақпаратты ұсыну</button>
+      <button onclick="loadQuestions('part2')">2-бөлім. Компьютерлік графика</button>
+      <button onclick="loadQuestions('part3')">3-бөлім. Роботтехника</button>
+      <button onclick="loadQuestions('part4')">4-бөлім. Роботтардың жарысы</button>
+      <button onclick="loadQuestions('part5')">5-бөлім. Компьютер және қауіпсіздік</button>
+      <button onclick="logout()">Кері шығу</button>
+    </nav>
+
+    <!-- Правый блок (80%) -->
+    <main class="test-area">
+      <h2 id="test-title">Тест</h2>
+      <form id="test-form">
+        <!-- Здесь динамически подгружаются вопросы -->
+      </form>
+      <button id="submit-btn" onclick="submitTest()">Тесті жіберу</button>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
