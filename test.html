@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Тест по главам</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="test-container">
+    <h1 id="chapter-title">Глава</h1>
+
+    <!-- Блок вопросов/ответов -->
+    <form id="test-form"></form>
+
+    <!-- Кнопки управления -->
+    <div class="nav-buttons">
+      <button id="finish-chapter-btn" onclick="finishChapter()">Завершить главу</button>
+      <button id="next-chapter-btn" onclick="goToNextChapter()">Следующая глава</button>
+    </div>
+
+    <!-- Блок вывода результата конкретной главы -->
+    <div id="chapter-result" class="result-block"></div>
+
+    <!-- Общий итог (будет виден только после последней главы) -->
+    <div id="overall-results" class="result-block"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

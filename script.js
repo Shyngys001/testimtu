@@ -1,15 +1,14 @@
 /************************************************************
-  1) Простейшая проверка логина.
-     (В реальности должна быть серверная аутентификация.)
+  1) Простейшая проверка логина (для index.html).
 *************************************************************/
 function login() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+  const username = document.getElementById("username")?.value;
+  const password = document.getElementById("password")?.value;
   const errorMsg = document.getElementById("error-msg");
 
-  // Допустим, логин/пароль = admin / 1234
+  // Демо: admin / 1234
   if (username === "admin" && password === "1234") {
-    window.location.href = "menu.html";
+    window.location.href = "test.html";
   } else {
     if (errorMsg) {
       errorMsg.textContent = "Логин немесе пароль қате!";
@@ -17,14 +16,11 @@ function login() {
   }
 }
 
-function logout() {
-  window.location.href = "index.html";
-}
-
 /************************************************************
-  2) Структура теста: 5 частей, в каждой - массив вопросов.
+  2) Массив глав. В каждой - questions[].
+     Вопрос: { text, options[], correctIndex }
 *************************************************************/
-const testData = [
+const chapters = [
   {
     title: "1-бөлім. Ақпаратты ұсыну",
     questions: [
@@ -50,7 +46,7 @@ const testData = [
       },
       {
         text: "Векторлық кескіннің ерекшелігі?",
-        options: ["Уақытпен жойылады", "Шексіз масштабталалады", "Жоғары сапалы фото"],
+        options: ["Уақытпен жойылады", "Шексіз масштабталалады", "Төмен сапалы сурет"],
         correctIndex: 1
       }
     ]
@@ -62,235 +58,194 @@ const testData = [
         text: "Роботтың негізгі бөлшектері?",
         options: ["Монитор, пернетақта", "Датчиктер, қозғалтқыш, басқару блогы", "Тек конструктор бөлшектері"],
         correctIndex: 1
-      }
-    ]
-  },
-  {
-    title: "4-бөлім. Роботтардың жарысы",
-    questions: [
+      },
       {
         text: "Робот жарысында не бағаланады?",
         options: ["Роботтың жылдамдығы және дәлдігі", "Тек дизайн", "Тек түсі"],
         correctIndex: 0
       }
     ]
-  },
-  {
-    title: "5-бөлім. Компьютер және қауіпсіздік",
-    questions: [
-      {
-        text: "Компьютерде вирусқа қарсы бағдарлама орнату не үшін керек?",
-        options: ["Компьютерді сәндеу үшін", "Зиянды ПО-дан қорғау үшін", "Жылдамдығын азайту үшін"],
-        correctIndex: 1
-      }
-    ]
   }
+  // При необходимости добавьте 4-ю, 5-ю главы и т.д.
 ];
 
 /************************************************************
-  3) Хранение ответов: userAnswers – массив массивов.
-     - userAnswers[номер_части][номер_вопроса] = индекс_варианта
-     - при загрузке части подставляем ранее выбранные ответы
+  3) Глобальные переменные (для test.html):
+     - currentChapter: индекс главы
+     - userAnswers: массив массивов
+     - chapterScores: [{correct, total}, ...] - результаты каждой главы
 *************************************************************/
-let userAnswers = [ [], [], [], [], [] ];
+let currentChapter = 0;
+let userAnswers = [];
+let chapterScores = [];
 
-// Текущая часть
-let currentPartIndex = 0;
-
-/************************************************************
-  4) При загрузке menu.html и result.html - проверяем, 
-     какая страница открыта. (title проверяется в onload)
-*************************************************************/
+// При загрузке test.html
 window.addEventListener("load", () => {
-  if (document.title === "Меню") {
-    // При загрузке страницы теста
-    // Изначально показываем 0-ю часть
-    loadPart(0);
-  } else if (document.title === "Нәтижелер") {
-    // Показ результатов
-    showResults();
+  if (document.title === "Тест по главам") {
+    // Инициализируем userAnswers и chapterScores
+    userAnswers = chapters.map(() => []);
+    chapterScores = chapters.map(() => ({ correct: 0, total: 0 }));
+
+    // Загружаем первую главу
+    loadChapter(0);
   }
 });
 
 /************************************************************
-  5) Выбор части через меню (слева).
-     Сохраняем ответы с текущей формы, затем загружаем нужную часть.
+  4) Загрузка главы по индексу
 *************************************************************/
-function selectPart(partIndex) {
-  saveCurrentAnswers();
-  currentPartIndex = partIndex;
-  loadPart(currentPartIndex);
-}
+function loadChapter(index) {
+  currentChapter = index;
 
-/************************************************************
-  6) Загрузка части (отображаем вопросы и ответы, если есть).
-*************************************************************/
-function loadPart(index) {
-  const part = testData[index];
-  const titleEl = document.getElementById("part-title");
+  const chapterTitleEl = document.getElementById("chapter-title");
   const formEl = document.getElementById("test-form");
+  const resultBlock = document.getElementById("chapter-result");
+  const overallBlock = document.getElementById("overall-results");
+  const nextBtn = document.getElementById("next-chapter-btn");
 
-  if (!part || !titleEl || !formEl) return;
+  if (!chapters[index]) return;
 
-  // Обновляем заголовок
-  titleEl.textContent = part.title;
+  // Заголовок
+  chapterTitleEl.textContent = chapters[index].title;
 
   // Очищаем форму
   formEl.innerHTML = "";
 
+  // Скрываем блоки результатов
+  resultBlock.style.display = "none";
+  resultBlock.innerHTML = "";
+  overallBlock.style.display = "none";
+  overallBlock.innerHTML = "";
+  nextBtn.style.display = "none";
+
   // Генерируем вопросы
-  part.questions.forEach((q, qIndex) => {
+  const questions = chapters[index].questions;
+  questions.forEach((q, qIndex) => {
     const block = document.createElement("div");
     block.className = "question-block";
 
-    // Текст вопроса
     const questionText = document.createElement("p");
     questionText.textContent = (qIndex + 1) + ". " + q.text;
     block.appendChild(questionText);
 
-    // Варианты
-    q.options.forEach((option, optIndex) => {
+    // Радиокнопки
+    q.options.forEach((opt, optIndex) => {
       const label = document.createElement("label");
       const radio = document.createElement("input");
       radio.type = "radio";
       radio.name = `question_${qIndex}`;
       radio.value = optIndex;
-      // Если ранее уже был выбран этот вариант - отмечаем
+
+      // Если ранее пользователь что-то выбирал
       if (userAnswers[index][qIndex] === optIndex) {
         radio.checked = true;
       }
+
       label.appendChild(radio);
-      label.appendChild(document.createTextNode(" " + option));
+      label.appendChild(document.createTextNode(" " + opt));
       block.appendChild(label);
     });
 
     formEl.appendChild(block);
   });
-
-  // Показываем/скрываем кнопки навигации
-  const prevBtn = document.getElementById("prev-btn");
-  const nextBtn = document.getElementById("next-btn");
-  const submitBtn = document.getElementById("submit-btn");
-
-  if (index === 0) {
-    // Если это первая часть - "Назад" недоступен
-    prevBtn.style.display = "none";
-  } else {
-    prevBtn.style.display = "inline-block";
-  }
-
-  if (index === testData.length - 1) {
-    // Если это последняя часть - вместо "Далее" появляется "Отправить тест"
-    nextBtn.style.display = "none";
-    submitBtn.style.display = "inline-block";
-  } else {
-    nextBtn.style.display = "inline-block";
-    submitBtn.style.display = "none";
-  }
 }
 
 /************************************************************
-  7) Сохраняем ответы пользователя из текущей формы
+  5) Завершить текущую главу
+     - Считать ответы
+     - Подсчитать кол-во правильных
+     - Показать результат
+     - Если это не последняя глава - показать "Следующая глава"
+     - Если последняя - показать общую сводку (overall)
 *************************************************************/
-function saveCurrentAnswers() {
-  const part = testData[currentPartIndex];
-  if (!part) return;
+function finishChapter() {
+  const formEl = document.getElementById("test-form");
+  const resultBlock = document.getElementById("chapter-result");
+  const overallBlock = document.getElementById("overall-results");
+  const nextBtn = document.getElementById("next-chapter-btn");
 
-  part.questions.forEach((q, qIndex) => {
+  const questions = chapters[currentChapter].questions;
+
+  let correctCount = 0;
+  let total = questions.length;
+
+  // Считываем ответы
+  questions.forEach((q, qIndex) => {
     const radios = document.getElementsByName(`question_${qIndex}`);
-    for (let r = 0; r < radios.length; r++) {
-      if (radios[r].checked) {
-        userAnswers[currentPartIndex][qIndex] = parseInt(radios[r].value);
+    let chosen = -1;
+    for (let i = 0; i < radios.length; i++) {
+      if (radios[i].checked) {
+        chosen = parseInt(radios[i].value);
         break;
       }
     }
+    // Сохраняем
+    userAnswers[currentChapter][qIndex] = chosen;
+    // Считаем правильные
+    if (chosen === q.correctIndex) {
+      correctCount++;
+    }
   });
-}
 
-/************************************************************
-  8) Навигация: Назад / Далее
-*************************************************************/
-function prevPart() {
-  // Сохраняем ответы с текущей формы
-  saveCurrentAnswers();
-  if (currentPartIndex > 0) {
-    currentPartIndex--;
-    loadPart(currentPartIndex);
-  }
-}
+  // Запишем в chapterScores
+  chapterScores[currentChapter] = {
+    correct: correctCount,
+    total: total
+  };
 
-function nextPart() {
-  saveCurrentAnswers();
-  if (currentPartIndex < testData.length - 1) {
-    currentPartIndex++;
-    loadPart(currentPartIndex);
-  }
-}
+  // Показываем блок результата
+  resultBlock.style.display = "block";
+  resultBlock.innerHTML = `
+    <h2>Нәтиже (Глава ${currentChapter+1}): ${correctCount} / ${total}</h2>
+    <p>Сіздің жауаптарыңыз:</p>
+  `;
 
-/************************************************************
-  9) Отправка теста (только на последней части)
-     Переход на result.html
-*************************************************************/
-function submitTest() {
-  // Сохраняем последние ответы
-  saveCurrentAnswers();
-  
-  // Сохраняем userAnswers в localStorage, чтобы
-  // прочитать на странице результатов.
-  localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+  // Подробности по каждому вопросу
+  questions.forEach((q, qIndex) => {
+    const chosen = userAnswers[currentChapter][qIndex];
+    const correct = q.correctIndex;
 
-  // Переходим на страницу результатов
-  window.location.href = "result.html";
-}
+    const div = document.createElement("div");
+    div.className = "question-block";
 
-/************************************************************
-  10) На result.html показываем итог + правильные ответы
-*************************************************************/
-function showResults() {
-  const answersDiv = document.getElementById("answers");
-  const scoreDiv = document.getElementById("score");
+    const title = document.createElement("p");
+    title.textContent = (qIndex + 1) + ". " + q.text;
+    div.appendChild(title);
 
-  // Загружаем ответы
-  const loadedAnswers = JSON.parse(localStorage.getItem("userAnswers") || "[]");
-  
-  let correctCount = 0;
-  let total = 0;
-
-  // Проходим по каждой части
-  testData.forEach((part, partIndex) => {
-    part.questions.forEach((q, qIndex) => {
-      total++;
-      const userAnswer = loadedAnswers[partIndex]?.[qIndex] ?? -1;
-      const correctAnswer = q.correctIndex;
-
-      // Блок вопроса
-      const block = document.createElement("div");
-      block.className = "question-block";
-
-      const questionText = document.createElement("p");
-      questionText.textContent = part.title + " | " + (qIndex+1) + ". " + q.text;
-      block.appendChild(questionText);
-
-      // Варианты
-      q.options.forEach((option, optIndex) => {
-        const p = document.createElement("p");
-        let prefix = "";
-        if (optIndex === correctAnswer) {
-          prefix = "(Дұрыс) ";
-        }
-        if (optIndex === userAnswer) {
-          prefix += "(Сіздің таңдауыңыз) ";
-        }
-        p.textContent = prefix + option;
-        block.appendChild(p);
-      });
-
-      // Если совпали
-      if (userAnswer === correctAnswer) correctCount++;
-
-      answersDiv.appendChild(block);
+    // Список вариантов
+    q.options.forEach((opt, optIndex) => {
+      const p = document.createElement("p");
+      let prefix = "";
+      if (optIndex === correct) prefix = "(Дұрыс) ";
+      if (optIndex === chosen) prefix += "(Сіздің таңдауыңыз) ";
+      p.textContent = prefix + opt;
+      div.appendChild(p);
     });
+
+    resultBlock.appendChild(div);
   });
 
-  scoreDiv.textContent = `Сіздің ұпайыңыз: ${correctCount} / ${total}`;
+  // Если НЕ последняя глава -> показать "Следующая глава"
+  if (currentChapter < chapters.length - 1) {
+    nextBtn.style.display = "inline-block";
+  } else {
+    // Если это была последняя глава – показываем общий итог
+    overallBlock.style.display = "block";
+    overallBlock.innerHTML = "<h2>Жалпы қорытынды</h2>";
+
+    chapterScores.forEach((score, idx) => {
+      const p = document.createElement("p");
+      p.textContent = `Глава ${idx+1}: ${score.correct} / ${score.total} балл`;
+      overallBlock.appendChild(p);
+    });
+  }
+}
+
+/************************************************************
+  6) Перейти к следующей главе
+*************************************************************/
+function goToNextChapter() {
+  if (currentChapter < chapters.length - 1) {
+    loadChapter(currentChapter + 1);
+  }
 }

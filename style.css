@@ -57,47 +57,13 @@ h1, h2 {
   text-align: center;
 }
 
-/* Меню и тестовая область */
-.container {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* Левая панель (20%) */
-.sidebar {
-  width: 20%;
-  min-width: 200px;
+/* Страница теста */
+.test-container {
+  max-width: 800px;
+  margin: 40px auto;
   background: #fff;
   padding: 20px;
-  border-right: 2px solid #e0e0e0;
-}
-
-.sidebar h2 {
-  margin-bottom: 10px;
-}
-
-.sidebar p {
-  margin-bottom: 20px;
-  font-size: 14px;
-  color: #444;
-}
-
-.sidebar button {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  background: #333;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* Правая область (80%) */
-.test-area {
-  flex-grow: 1;
-  padding: 20px;
+  border-radius: 8px;
 }
 
 #test-form {
@@ -105,28 +71,28 @@ h1, h2 {
 }
 
 .question-block {
-  background: #ffffff;
+  background: #f9f9f9;
   padding: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border-radius: 6px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.05);
 }
 
 .question-block p {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-weight: bold;
 }
 
 .question-block label {
   display: block;
   margin-left: 20px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
-/* Кнопки навигации */
+/* Кнопки */
 .nav-buttons {
   display: flex;
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 .nav-buttons button {
@@ -138,35 +104,16 @@ h1, h2 {
   cursor: pointer;
 }
 
-/* Итоговая страница */
-.result-container {
-  max-width: 600px;
-  margin: 40px auto;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
+/* Результат главы */
+.result-block {
+  background: #efeaea;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  display: none; /* по умолчанию скрыт */
 }
 
-.result-container h2 {
-  margin-top: 20px;
-}
-
-.question-block p {
-  font-weight: normal;
-  margin-bottom: 0;
-}
-
-/* Адаптив */
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 2px solid #e0e0e0;
-  }
-  .test-area {
-    width: 100%;
-  }
+.result-block p,
+.result-block h2 {
+  margin-bottom: 10px;
 }
