@@ -8,23 +8,28 @@
 </head>
 <body>
   <div class="container">
-    <!-- Левый блок (20%) -->
+    <!-- Левый блок (меню) -->
     <nav class="sidebar">
       <h2>Бөлімдер</h2>
-      <!-- Список глав -->
-      <button onclick="selectChapter(0)">1-бөлім. Ақпаратты ұсыну</button>
-      <button onclick="selectChapter(1)">2-бөлім. Компьютерлік графика</button>
-      <button onclick="selectChapter(2)">3-бөлім. Робототехника</button>
+      <!-- Кнопка для 1-й главы (разблокирована) -->
+      <button id="chapter0-btn" onclick="selectChapter(0)">1-бөлім. Ақпаратты ұсыну</button>
+
+      <!-- Кнопка для 2-й главы (заблокирована, disabled) -->
+      <button id="chapter1-btn" onclick="selectChapter(1)" disabled>2-бөлім. Компьютерлік графика</button>
+
+      <!-- Кнопка для 3-й главы (заблокирована, disabled) -->
+      <button id="chapter2-btn" onclick="selectChapter(2)" disabled>3-бөлім. Робототехника</button>
       
       <!-- Кнопка выхода -->
       <button onclick="logout()">Кері шығу</button>
     </nav>
 
-    <!-- Правая область (80%) -->
+    <!-- Правая часть (тест) -->
     <main class="test-area">
       <h2 id="chapter-title">Таңдаған бөлім</h2>
+      
       <form id="test-form">
-        <!-- Вопросы текущей главы -->
+        <!-- Здесь подгружаются вопросы выбранной главы -->
       </form>
 
       <!-- Кнопки управления -->
@@ -35,7 +40,7 @@
         <button id="next-chapter-btn" class="green-btn" onclick="goToNextChapter()">Следующая глава</button>
       </div>
 
-      <!-- Блок вывода результата конкретной главы -->
+      <!-- Блок вывода результата по текущей главе -->
       <div id="chapter-result" class="result-block"></div>
       <!-- Общий итог (после последней главы) -->
       <div id="overall-results" class="result-block"></div>

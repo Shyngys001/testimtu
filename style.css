@@ -1,4 +1,4 @@
-/* Сброс отступов */
+/* Сброс */
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +14,7 @@ h1, h2 {
   margin-bottom: 20px;
 }
 
-/* ---------- Страница логина ---------- */
+/* Страница логина */
 .login-container {
   max-width: 400px;
   margin: 80px auto;
@@ -29,7 +29,6 @@ h1, h2 {
   margin-top: 15px;
   font-weight: bold;
 }
-
 .login-container input {
   width: 100%;
   padding: 10px;
@@ -37,7 +36,6 @@ h1, h2 {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
 .login-container button {
   width: 100%;
   margin-top: 20px;
@@ -47,20 +45,17 @@ h1, h2 {
   cursor: pointer;
   font-size: 16px;
 }
-
 #error-msg {
   color: red;
   margin-top: 10px;
   text-align: center;
 }
 
-/* ---------- Меню и тестовая область (menu.html) ---------- */
+/* Меню + тест */
 .container {
   display: flex;
   min-height: 100vh;
 }
-
-/* Левая панель */
 .sidebar {
   width: 20%;
   min-width: 200px;
@@ -68,11 +63,9 @@ h1, h2 {
   padding: 20px;
   border-right: 2px solid #e0e0e0;
 }
-
 .sidebar h2 {
   margin-bottom: 15px;
 }
-
 .sidebar button {
   display: block;
   width: 100%;
@@ -94,23 +87,19 @@ h1, h2 {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
-
 #test-form {
   margin-bottom: 20px;
 }
-
 .question-block {
   background: #f9f9f9;
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 6px;
 }
-
 .question-block p {
   margin-bottom: 8px;
   font-weight: bold;
 }
-
 .question-block label {
   display: block;
   margin-left: 20px;
@@ -123,7 +112,6 @@ h1, h2 {
   gap: 10px;
   margin-bottom: 20px;
 }
-
 .nav-buttons button {
   padding: 10px 15px;
   border: none;
@@ -132,17 +120,15 @@ h1, h2 {
   font-size: 14px;
 }
 
-/* Цветовые классы: синий, красный, зеленый */
+/* Цветные кнопки */
 .blue-btn {
   background-color: #007bff; /* синий */
   color: #fff;
 }
-
 .red-btn {
   background-color: #dc3545; /* красный */
   color: #fff;
 }
-
 .green-btn {
   background-color: #28a745; /* зеленый */
   color: #fff;
@@ -156,7 +142,6 @@ h1, h2 {
   margin-bottom: 20px;
   display: none; 
 }
-
 .result-block p,
 .result-block h2 {
   margin-bottom: 10px;
