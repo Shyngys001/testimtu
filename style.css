@@ -1,21 +1,22 @@
-/* Сброс отступов */
+/* Сброс отступов, чтобы не было лишних полей */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Общие стили */
+/* Общие стили для body */
 body {
   font-family: Arial, sans-serif;
   background: #f0f0f0;
 }
 
+/* Заголовки */
 h1, h2 {
   margin-bottom: 20px;
 }
 
-/* Страница логина */
+/* ---------- Страница логина ---------- */
 .login-container {
   max-width: 400px;
   margin: 80px auto;
@@ -46,8 +47,6 @@ h1, h2 {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background: #333;
-  color: #fff;
   font-size: 16px;
 }
 
@@ -57,7 +56,7 @@ h1, h2 {
   text-align: center;
 }
 
-/* Страница теста */
+/* ---------- Страница теста ---------- */
 .test-container {
   max-width: 800px;
   margin: 40px auto;
@@ -88,7 +87,7 @@ h1, h2 {
   margin-bottom: 5px;
 }
 
-/* Кнопки */
+/* ---------- Кнопки ---------- */
 .nav-buttons {
   display: flex;
   gap: 10px;
@@ -99,12 +98,27 @@ h1, h2 {
   padding: 10px 15px;
   border: none;
   border-radius: 4px;
-  background: #333;
-  color: #fff;
   cursor: pointer;
+  font-size: 14px;
 }
 
-/* Результат главы */
+/* Цветовые классы по смыслу */
+.blue-btn {
+  background-color: #007bff; /* синий */
+  color: #fff;
+}
+
+.red-btn {
+  background-color: #dc3545; /* красный */
+  color: #fff;
+}
+
+.green-btn {
+  background-color: #28a745; /* зеленый */
+  color: #fff;
+}
+
+/* ---------- Результаты ---------- */
 .result-block {
   background: #efeaea;
   padding: 15px;
