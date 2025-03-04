@@ -1,17 +1,15 @@
-/* Сброс отступов, чтобы не было лишних полей */
+/* Сброс отступов */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Общие стили для body */
+/* Общие стили */
 body {
   font-family: Arial, sans-serif;
   background: #f0f0f0;
 }
-
-/* Заголовки */
 h1, h2 {
   margin-bottom: 20px;
 }
@@ -56,13 +54,45 @@ h1, h2 {
   text-align: center;
 }
 
-/* ---------- Страница теста ---------- */
-.test-container {
-  max-width: 800px;
-  margin: 40px auto;
+/* ---------- Меню и тестовая область (menu.html) ---------- */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Левая панель */
+.sidebar {
+  width: 20%;
+  min-width: 200px;
   background: #fff;
   padding: 20px;
+  border-right: 2px solid #e0e0e0;
+}
+
+.sidebar h2 {
+  margin-bottom: 15px;
+}
+
+.sidebar button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #333;
+  color: #fff;
+}
+
+/* Правая часть */
+.test-area {
+  flex-grow: 1;
+  padding: 20px;
+  background: #fff;
+  margin: 20px;
   border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 #test-form {
@@ -87,7 +117,7 @@ h1, h2 {
   margin-bottom: 5px;
 }
 
-/* ---------- Кнопки ---------- */
+/* Кнопки */
 .nav-buttons {
   display: flex;
   gap: 10px;
@@ -102,7 +132,7 @@ h1, h2 {
   font-size: 14px;
 }
 
-/* Цветовые классы по смыслу */
+/* Цветовые классы: синий, красный, зеленый */
 .blue-btn {
   background-color: #007bff; /* синий */
   color: #fff;
@@ -118,16 +148,32 @@ h1, h2 {
   color: #fff;
 }
 
-/* ---------- Результаты ---------- */
+/* Результаты */
 .result-block {
   background: #efeaea;
   padding: 15px;
   border-radius: 6px;
   margin-bottom: 20px;
-  display: none; /* по умолчанию скрыт */
+  display: none; 
 }
 
 .result-block p,
 .result-block h2 {
   margin-bottom: 10px;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid #e0e0e0;
+  }
+  .test-area {
+    margin: 0;
+    border-radius: 0;
+  }
 }

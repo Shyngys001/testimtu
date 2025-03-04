@@ -10,14 +10,11 @@
   <div class="container">
     <!-- Левый блок (20%) -->
     <nav class="sidebar">
-      <h2>5 сынып информатика</h2>
-      <p>Бөлім бойынша қорытынды тест сұрақтары</p>
-      <!-- Кнопки разделов -->
-      <button onclick="selectPart(0)">1-бөлім. Ақпаратты ұсыну</button>
-      <button onclick="selectPart(1)">2-бөлім. Компьютерлік графика</button>
-      <button onclick="selectPart(2)">3-бөлім. Роботтехника</button>
-      <button onclick="selectPart(3)">4-бөлім. Роботтардың жарысы</button>
-      <button onclick="selectPart(4)">5-бөлім. Компьютер және қауіпсіздік</button>
+      <h2>Бөлімдер</h2>
+      <!-- Список глав -->
+      <button onclick="selectChapter(0)">1-бөлім. Ақпаратты ұсыну</button>
+      <button onclick="selectChapter(1)">2-бөлім. Компьютерлік графика</button>
+      <button onclick="selectChapter(2)">3-бөлім. Робототехника</button>
       
       <!-- Кнопка выхода -->
       <button onclick="logout()">Кері шығу</button>
@@ -25,17 +22,23 @@
 
     <!-- Правая область (80%) -->
     <main class="test-area">
-      <h2 id="part-title">Тест бөлімі</h2>
+      <h2 id="chapter-title">Таңдаған бөлім</h2>
       <form id="test-form">
-        <!-- Здесь динамически подгружаются вопросы для выбранного раздела -->
+        <!-- Вопросы текущей главы -->
       </form>
-      
-      <!-- Кнопки навигации (назад / далее / отправить) -->
+
+      <!-- Кнопки управления -->
       <div class="nav-buttons">
-        <button id="prev-btn" onclick="prevPart()">Назад</button>
-        <button id="next-btn" onclick="nextPart()">Далее</button>
-        <button id="submit-btn" onclick="submitTest()">Отправить тест</button>
+        <!-- «Завершить главу» – красная -->
+        <button id="finish-chapter-btn" class="red-btn" onclick="finishChapter()">Завершить главу</button>
+        <!-- «Следующая глава» – зелёная -->
+        <button id="next-chapter-btn" class="green-btn" onclick="goToNextChapter()">Следующая глава</button>
       </div>
+
+      <!-- Блок вывода результата конкретной главы -->
+      <div id="chapter-result" class="result-block"></div>
+      <!-- Общий итог (после последней главы) -->
+      <div id="overall-results" class="result-block"></div>
     </main>
   </div>
 
